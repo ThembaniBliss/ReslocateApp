@@ -1,11 +1,10 @@
-// ignore_for_file: use_build_context_synchronously, library_private_types_in_public_api, use_key_in_widget_constructors, prefer_final_fields, duplicate_ignore
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'accommodation_page.dart';
 import 'auth_service.dart';
 
+// ignore: use_key_in_widget_constructors
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -15,32 +14,57 @@ class _LoginPageState extends State<LoginPage> {
   final AuthService authService = AuthService();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  // ignore: prefer_final_fields
   String _errorMessage = '';
   bool _isLoading = false;
   bool isLoginSelected = true;
 
   Future<void> signIn() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = '';
+    });
+
     try {
       await authService.signIn(_emailController.text, _passwordController.text);
       Fluttertoast.showToast(msg: "Signed in successfully!");
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) => AccommodationPage()));
+      Navigator.pushReplacement(
+        // ignore: use_build_context_synchronously
+        context,
+        MaterialPageRoute(
+          builder: (context) =>
+              AccommodationPage(supabaseClient: authService.supabase),
+        ),
+      );
     } catch (e) {
-      // ignore: avoid_print
-      print('Error during sign in: $e'); // Log the error
+      setState(() {
+        _errorMessage = e.toString();
+      });
       Fluttertoast.showToast(msg: "Error signing in: $e");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
   Future<void> signUp() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = '';
+    });
+
     try {
       await authService.signUp(_emailController.text, _passwordController.text);
       Fluttertoast.showToast(msg: "Signed up successfully!");
     } catch (e) {
-      // ignore: avoid_print
-      print('Error during sign up: $e'); // Log the error
+      setState(() {
+        _errorMessage = e.toString();
+      });
       Fluttertoast.showToast(msg: "Error signing up: $e");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -170,19 +194,9 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: true,
                 ),
                 const SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Forgot password?',
-                      style: TextStyle(color: Colors.blue),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: _isLoading ? null : signIn,
+                  onPressed:
+                      _isLoading ? null : (isLoginSelected ? signIn : signUp),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 15),
@@ -192,21 +206,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   child: _isLoading
-                      ? const CircularProgressIndicator(
-                          color: Colors.white,
-                        )
-                      : const Text(
-                          'Login',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                ),
-                const SizedBox(height: 20),
-                GestureDetector(
-                  onTap: signUp,
-                  child: const Text(
-                    "Not a member? Signup now",
-                    style: TextStyle(color: Colors.blue, fontSize: 16),
-                  ),
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      : Text(isLoginSelected ? 'Login' : 'Sign up',
+                          style: const TextStyle(fontSize: 18)),
                 ),
                 if (_errorMessage.isNotEmpty) ...[
                   const SizedBox(height: 20),

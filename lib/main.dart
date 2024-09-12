@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'accommodation_page.dart';
 import 'auth_service.dart';
+import 'login_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,19 +18,24 @@ void main() async {
   runApp(MyApp());
 }
 
-final AuthService authService = AuthService();
-
 // ignore: use_key_in_widget_constructors
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final AuthService authService = AuthService();
+
+    // Check if the user is logged in
+    final user = authService.currentUser;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Accommodation App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AccommodationPage(),
+      home: user == null
+          ? LoginPage()
+          : AccommodationPage(supabaseClient: Supabase.instance.client),
     );
   }
 }
