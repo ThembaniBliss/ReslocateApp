@@ -1,6 +1,9 @@
+// ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'house_detail_page.dart';
+// ignore: unused_import
 import 'house_list_page.dart';
 
 class AccommodationPage extends StatefulWidget {
@@ -13,7 +16,6 @@ class AccommodationPage extends StatefulWidget {
 }
 
 class _AccommodationPageState extends State<AccommodationPage> {
-  final SupabaseClient supabase = Supabase.instance.client;
   List<dynamic> houseListings = [];
   bool isLoading = true;
 
@@ -26,30 +28,46 @@ class _AccommodationPageState extends State<AccommodationPage> {
   }
 
   Future<void> fetchAccommodations() async {
-    final response = await supabase.from('HouseListing').select();
+    print('Fetching accommodations from Supabase...');
+    final response = await widget.supabaseClient
+        .from('HouseListing')
+        .select(
+            ' name, location, amenities, security, furnish, price, image_url, description'
+            // ignore: deprecated_member_use
+            )
+        // ignore: deprecated_member_use
+        .execute();
 
-    if (response != null && response.error == null) {
+    // Check the status code to determine if there was an error
+    // ignore: unnecessary_null_comparison
+    if (response.status != null && response.status >= 400) {
+      // Handle the error based on the status code
+      print("Error fetching data: Status Code ${response.status}");
       setState(() {
-        houseListings = response.data ?? [];
         isLoading = false;
       });
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HouseListPage(
-            supabaseClient: widget.supabaseClient,
-            houseListings: houseListings,
-          ),
-        ),
-      );
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error: Status Code ${response.status}'),
+      ));
+      return; // Exit if there's an error
+    }
+
+    // Check if the data is not empty
+    if (response.data != null && response.data.isNotEmpty) {
+      setState(() {
+        houseListings = response.data;
+        isLoading = false;
+      });
     } else {
       setState(() {
         isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Error fetching data or no data available')),
-      );
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        // ignore: unnecessary_const
+        content: const Text('No accommodations found'),
+      ));
     }
   }
 
@@ -63,7 +81,48 @@ class _AccommodationPageState extends State<AccommodationPage> {
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Container(), // Empty container, as the page will navigate away
+          : houseListings.isEmpty
+              ? const Center(child: Text('No accommodations found'))
+              : ListView.builder(
+                  itemCount: houseListings.length,
+                  itemBuilder: (context, index) {
+                    final house = houseListings[index];
+                    return ListTile(
+                      leading: house['image_url'] != null
+                          ? Image.network(house['image_url'])
+                          : const Icon(Icons.home),
+                      title: Text(house['name'] ?? 'Unknown Name'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                              'Location: ${house['location'] ?? 'Unknown Location'}'),
+                          Text('Price: ${house['price'] ?? 'N/A'}'),
+                          Text(
+                              'Amenities: ${house['amenities'] ?? 'Not specified'}'),
+                          Text(
+                              'Security: ${house['security'] ?? 'Not specified'}'),
+                          Text(
+                              'Furnish: ${house['furnish'] ?? 'Not specified'}'),
+                        ],
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.arrow_forward),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HouseDetailPage(
+                                house: house,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      isThreeLine: true,
+                    );
+                  },
+                ),
     );
   }
 }

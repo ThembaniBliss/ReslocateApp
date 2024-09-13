@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:reslocate_house_listing/house_list_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'accommodation_page.dart';
+import 'add_accommodation_page.dart';
 import 'auth_service.dart';
 import 'login_page.dart';
 
@@ -35,7 +37,32 @@ class MyApp extends StatelessWidget {
       ),
       home: user == null
           ? LoginPage()
-          : AccommodationPage(supabaseClient: Supabase.instance.client),
+          : DefaultTabController(
+              length: 3,
+              child: Scaffold(
+                appBar: AppBar(
+                  title: const Text('Accommodation App'),
+                  bottom: const TabBar(
+                    tabs: [
+                      Tab(icon: Icon(Icons.home), text: 'Accommodations'),
+                      Tab(icon: Icon(Icons.list), text: 'Listings'),
+                      Tab(icon: Icon(Icons.add), text: 'Add New'),
+                    ],
+                  ),
+                ),
+                body: TabBarView(
+                  children: [
+                    AccommodationPage(
+                        supabaseClient:
+                            Supabase.instance.client), // Accommodations Page
+                    HouseListPage(
+                        supabaseClient: Supabase.instance.client,
+                        houseListings: const []), // House Listings Page
+                    const AddAccommodationPage(), // Add New Accommodation Page
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }
