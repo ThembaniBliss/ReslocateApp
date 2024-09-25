@@ -68,7 +68,7 @@ class HouseDetailPage extends StatelessWidget {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: const Text('Interest Expressed!'),
+                              title: const Text('Are you Interested ?'),
                               content: const Text(
                                   'Thank you for your interest. We will contact you shortly.'),
                               actions: [
@@ -82,7 +82,7 @@ class HouseDetailPage extends StatelessWidget {
                         );
                       },
                       // ignore: sort_child_properties_last
-                      child: const Text('Express Interest'),
+                      child: const Text('Are you Interested? '),
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor:
