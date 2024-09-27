@@ -1,14 +1,13 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously, deprecated_member_use, unused_import, duplicate_ignore
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'house_detail_page.dart';
-import 'house_list_page.dart';
-// ignore: unused_import
-import 'binterest_form_page.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'binterest_form_page.dart'; // Ensure you have your other dependencies
+import 'dart:convert';
+
 
 class AccommodationPage extends StatefulWidget {
   final SupabaseClient supabaseClient;
@@ -26,9 +25,7 @@ class _AccommodationPageState extends State<AccommodationPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      fetchAccommodations();
-    });
+    fetchAccommodations();
   }
 
   Future<void> fetchAccommodations() async {
@@ -59,7 +56,6 @@ class _AccommodationPageState extends State<AccommodationPage> {
       setState(() {
         isLoading = false;
       });
-      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('No accommodations found')),
       );
@@ -82,20 +78,18 @@ class _AccommodationPageState extends State<AccommodationPage> {
                   itemCount: houseListings.length,
                   itemBuilder: (context, index) {
                     final house = houseListings[index];
-                    return buildHouseCard(house); // Call the card building function here
+                    return buildHouseCard(house);
                   },
                 ),
     );
   }
 
-
   // Widget function to build a card with image slider
   Widget buildHouseCard(dynamic house) {
-       
-       List<String> imageUrls = house['image_url'] != null
-    ? [house['image_url'].toString()] // Convert the single URL string into a list
-    : []; // Empty list if no images are available
-
+    // Parse the image URLs stored as a JSON array in the database
+    List<String> imageUrls = house['image_url'] != null
+        ? List<String>.from(json.decode(house['image_url']))
+        : [];
 
     return Card(
       margin: const EdgeInsets.all(10),
@@ -174,18 +168,16 @@ class _AccommodationPageState extends State<AccommodationPage> {
                   ),
                 ),
                 ElevatedButton(
-              onPressed: () {
-                  // Example: Navigate to a form page or show a dialog with questions
-                   Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                 builder: (context) => const InterestFormPage(house: {},), // Replace with your actual target page
-      ),
-    );
-  },
-  child: const Text('Are you Interested?'),
-),
-
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const InterestFormPage(house: {}),
+                      ),
+                    );
+                  },
+                  child: const Text('Are you Interested?'),
+                ),
               ],
             ),
           ],
@@ -195,16 +187,12 @@ class _AccommodationPageState extends State<AccommodationPage> {
   }
 }
 
-
-
-
 // Fullscreen gallery view using PhotoView and PhotoViewGallery
 class FullScreenGallery extends StatelessWidget {
   final List<String> imageUrls;
   final int initialIndex;
 
-  // ignore: use_key_in_widget_constructors
-  const FullScreenGallery({required this.imageUrls, required this.initialIndex});
+  const FullScreenGallery({super.key, required this.imageUrls, required this.initialIndex});
 
   @override
   Widget build(BuildContext context) {

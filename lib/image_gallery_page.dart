@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -26,7 +26,7 @@ class _ImageGalleryPageState extends State<ImageGalleryPage> {
     fetchImageUrls();
   }
 
-  Future<void> fetchImageUrls() async {
+ Future<void> fetchImageUrls() async {
     final response = await client
         .from('HouseListing')
         .select('image_url')
@@ -34,7 +34,6 @@ class _ImageGalleryPageState extends State<ImageGalleryPage> {
         .single();
 
     if (response.error == null) {
-      // If the response has no error
       final data = response.data;
       if (data != null && data['image_url'] != null) {
         setState(() {
@@ -42,16 +41,11 @@ class _ImageGalleryPageState extends State<ImageGalleryPage> {
           isLoading = false;
         });
       } else {
-        // Handle the case where no images are found
-        // ignore: avoid_print
-        print('No images found for this house.');
+        developer.log('No images found for this house.');
         setState(() => isLoading = false);
       }
     } else {
-      // If there was an error in the response
-      // ignore: avoid_print
-      print(
-          'Error fetching images: ${response.error?.message ?? 'Unknown error'}');
+      developer.log('Error fetching images: ${response.error?.message ?? 'Unknown error'}');
       setState(() => isLoading = false);
     }
   }

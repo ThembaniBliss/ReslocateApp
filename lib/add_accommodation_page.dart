@@ -104,7 +104,7 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  buildTextField(_locationController, 'name'),
+                  buildTextField(_nameController, 'name'),
                   buildTextField(_locationController, 'Location'),
                   buildTextField(_priceController, 'Price', keyboardType: TextInputType.number),
                   buildTextField(_descriptionController, 'Description'),
