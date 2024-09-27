@@ -171,11 +171,18 @@ class _AccommodationPageState extends State<AccommodationPage> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    // Navigation or action code here
-                  },
-                  child: const Text('Are you Interested?'),
-                ),
+              onPressed: () {
+                  // Example: Navigate to a form page or show a dialog with questions
+                   Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                 builder: (context) => const InterestFormPage(house: {},), // Replace with your actual target page
+      ),
+    );
+  },
+  child: const Text('Are you Interested?'),
+),
+
               ],
             ),
           ],

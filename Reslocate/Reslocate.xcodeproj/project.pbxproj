@@ -1,0 +1,923 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2463C95A2CA54EA70094D179 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C9592CA54EA70094D179 /* AppDelegate.swift */; };
+		2463C95C2CA54EA70094D179 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C95B2CA54EA70094D179 /* GameViewController.swift */; };
+		2463C95F2CA54EA70094D179 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2463C95D2CA54EA70094D179 /* Main.storyboard */; };
+		2463C9622CA54EA70094D179 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2463C9602CA54EA70094D179 /* LaunchScreen.storyboard */; };
+		2463C9672CA54EA70094D179 /* Reslocate.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 2463C9662CA54EA70094D179 /* Reslocate.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2463C96D2CA54EA70094D179 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2463C96B2CA54EA70094D179 /* Interface.storyboard */; };
+		2463C9742CA54EA70094D179 /* Reslocate Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 2463C9732CA54EA70094D179 /* Reslocate Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2463C9792CA54EA70094D179 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C9782CA54EA70094D179 /* InterfaceController.swift */; };
+		2463C97B2CA54EA70094D179 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C97A2CA54EA70094D179 /* ExtensionDelegate.swift */; };
+		2463C9842CA54EA70094D179 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C9832CA54EA70094D179 /* AppDelegate.swift */; };
+		2463C9862CA54EA70094D179 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C9852CA54EA70094D179 /* GameViewController.swift */; };
+		2463C9892CA54EA70094D179 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2463C9872CA54EA70094D179 /* Main.storyboard */; };
+		2463C98C2CA54EA70094D179 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2463C98A2CA54EA70094D179 /* LaunchScreen.storyboard */; };
+		2463C9952CA54EA80094D179 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C9942CA54EA80094D179 /* AppDelegate.swift */; };
+		2463C9972CA54EA80094D179 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C9962CA54EA80094D179 /* GameViewController.swift */; };
+		2463C99A2CA54EA80094D179 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2463C9982CA54EA80094D179 /* Main.storyboard */; };
+		2463C99D2CA54EA80094D179 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2463C94E2CA54EA20094D179 /* Actions.sks */; };
+		2463C99E2CA54EA80094D179 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2463C94E2CA54EA20094D179 /* Actions.sks */; };
+		2463C99F2CA54EA80094D179 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2463C94E2CA54EA20094D179 /* Actions.sks */; };
+		2463C9A02CA54EA80094D179 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2463C94F2CA54EA20094D179 /* GameScene.sks */; };
+		2463C9A12CA54EA80094D179 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2463C94F2CA54EA20094D179 /* GameScene.sks */; };
+		2463C9A22CA54EA80094D179 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2463C94F2CA54EA20094D179 /* GameScene.sks */; };
+		2463C9A32CA54EA80094D179 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 2463C94F2CA54EA20094D179 /* GameScene.sks */; };
+		2463C9A42CA54EA80094D179 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C9502CA54EA20094D179 /* GameScene.swift */; };
+		2463C9A52CA54EA80094D179 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C9502CA54EA20094D179 /* GameScene.swift */; };
+		2463C9A62CA54EA80094D179 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C9502CA54EA20094D179 /* GameScene.swift */; };
+		2463C9A72CA54EA80094D179 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2463C9502CA54EA20094D179 /* GameScene.swift */; };
+		2463C9A82CA54EA80094D179 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2463C9512CA54EA60094D179 /* Assets.xcassets */; };
+		2463C9A92CA54EA80094D179 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2463C9512CA54EA60094D179 /* Assets.xcassets */; };
+		2463C9AA2CA54EA80094D179 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2463C9512CA54EA60094D179 /* Assets.xcassets */; };
+		2463C9AB2CA54EA80094D179 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2463C9512CA54EA60094D179 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2463C9682CA54EA70094D179 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2463C9492CA54EA20094D179 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2463C9652CA54EA70094D179;
+			remoteInfo = "Reslocate watchOS App";
+		};
+		2463C9752CA54EA70094D179 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2463C9492CA54EA20094D179 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2463C9722CA54EA70094D179;
+			remoteInfo = "Reslocate watchOS App Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2463C9B12CA54EA80094D179 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2463C9742CA54EA70094D179 /* Reslocate Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C9B52CA54EA80094D179 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				2463C9672CA54EA70094D179 /* Reslocate.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		2463C94E2CA54EA20094D179 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		2463C94F2CA54EA20094D179 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		2463C9502CA54EA20094D179 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		2463C9512CA54EA60094D179 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2463C9562CA54EA70094D179 /* Reslocate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reslocate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2463C9592CA54EA70094D179 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2463C95B2CA54EA70094D179 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		2463C95E2CA54EA70094D179 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2463C9612CA54EA70094D179 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2463C9632CA54EA70094D179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2463C9662CA54EA70094D179 /* Reslocate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reslocate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2463C96C2CA54EA70094D179 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		2463C96E2CA54EA70094D179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2463C9732CA54EA70094D179 /* Reslocate Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Reslocate Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2463C9782CA54EA70094D179 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		2463C97A2CA54EA70094D179 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		2463C97C2CA54EA70094D179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2463C9812CA54EA70094D179 /* Reslocate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reslocate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2463C9832CA54EA70094D179 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2463C9852CA54EA70094D179 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		2463C9882CA54EA70094D179 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2463C98B2CA54EA70094D179 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		2463C98D2CA54EA70094D179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2463C9922CA54EA80094D179 /* Reslocate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reslocate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2463C9942CA54EA80094D179 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2463C9962CA54EA80094D179 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		2463C9992CA54EA80094D179 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2463C99B2CA54EA80094D179 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2463C99C2CA54EA80094D179 /* Reslocate_macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Reslocate_macOS.entitlements; sourceTree = "<group>"; };
+		2463C9C42CA552A90094D179 /* Reslocate.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Reslocate.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2463C9532CA54EA70094D179 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C9702CA54EA70094D179 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C97E2CA54EA70094D179 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C98F2CA54EA80094D179 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2463C9482CA54EA20094D179 = {
+			isa = PBXGroup;
+			children = (
+				2463C94D2CA54EA20094D179 /* Reslocate Shared */,
+				2463C9582CA54EA70094D179 /* Reslocate iOS */,
+				2463C96A2CA54EA70094D179 /* Reslocate watchOS App */,
+				2463C9772CA54EA70094D179 /* Reslocate watchOS App Extension */,
+				2463C9822CA54EA70094D179 /* Reslocate tvOS */,
+				2463C9932CA54EA80094D179 /* Reslocate macOS */,
+				2463C9572CA54EA70094D179 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2463C94D2CA54EA20094D179 /* Reslocate Shared */ = {
+			isa = PBXGroup;
+			children = (
+				2463C94E2CA54EA20094D179 /* Actions.sks */,
+				2463C94F2CA54EA20094D179 /* GameScene.sks */,
+				2463C9502CA54EA20094D179 /* GameScene.swift */,
+				2463C9512CA54EA60094D179 /* Assets.xcassets */,
+			);
+			path = "Reslocate Shared";
+			sourceTree = "<group>";
+		};
+		2463C9572CA54EA70094D179 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2463C9562CA54EA70094D179 /* Reslocate.app */,
+				2463C9662CA54EA70094D179 /* Reslocate.app */,
+				2463C9732CA54EA70094D179 /* Reslocate Extension.appex */,
+				2463C9812CA54EA70094D179 /* Reslocate.app */,
+				2463C9922CA54EA80094D179 /* Reslocate.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2463C9582CA54EA70094D179 /* Reslocate iOS */ = {
+			isa = PBXGroup;
+			children = (
+				2463C9C42CA552A90094D179 /* Reslocate.entitlements */,
+				2463C9592CA54EA70094D179 /* AppDelegate.swift */,
+				2463C95B2CA54EA70094D179 /* GameViewController.swift */,
+				2463C95D2CA54EA70094D179 /* Main.storyboard */,
+				2463C9602CA54EA70094D179 /* LaunchScreen.storyboard */,
+				2463C9632CA54EA70094D179 /* Info.plist */,
+			);
+			path = "Reslocate iOS";
+			sourceTree = "<group>";
+		};
+		2463C96A2CA54EA70094D179 /* Reslocate watchOS App */ = {
+			isa = PBXGroup;
+			children = (
+				2463C96B2CA54EA70094D179 /* Interface.storyboard */,
+				2463C96E2CA54EA70094D179 /* Info.plist */,
+			);
+			path = "Reslocate watchOS App";
+			sourceTree = "<group>";
+		};
+		2463C9772CA54EA70094D179 /* Reslocate watchOS App Extension */ = {
+			isa = PBXGroup;
+			children = (
+				2463C9782CA54EA70094D179 /* InterfaceController.swift */,
+				2463C97A2CA54EA70094D179 /* ExtensionDelegate.swift */,
+				2463C97C2CA54EA70094D179 /* Info.plist */,
+			);
+			path = "Reslocate watchOS App Extension";
+			sourceTree = "<group>";
+		};
+		2463C9822CA54EA70094D179 /* Reslocate tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				2463C9832CA54EA70094D179 /* AppDelegate.swift */,
+				2463C9852CA54EA70094D179 /* GameViewController.swift */,
+				2463C9872CA54EA70094D179 /* Main.storyboard */,
+				2463C98A2CA54EA70094D179 /* LaunchScreen.storyboard */,
+				2463C98D2CA54EA70094D179 /* Info.plist */,
+			);
+			path = "Reslocate tvOS";
+			sourceTree = "<group>";
+		};
+		2463C9932CA54EA80094D179 /* Reslocate macOS */ = {
+			isa = PBXGroup;
+			children = (
+				2463C9942CA54EA80094D179 /* AppDelegate.swift */,
+				2463C9962CA54EA80094D179 /* GameViewController.swift */,
+				2463C9982CA54EA80094D179 /* Main.storyboard */,
+				2463C99B2CA54EA80094D179 /* Info.plist */,
+				2463C99C2CA54EA80094D179 /* Reslocate_macOS.entitlements */,
+			);
+			path = "Reslocate macOS";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2463C9552CA54EA70094D179 /* Reslocate iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2463C9B62CA54EA80094D179 /* Build configuration list for PBXNativeTarget "Reslocate iOS" */;
+			buildPhases = (
+				2463C9522CA54EA70094D179 /* Sources */,
+				2463C9532CA54EA70094D179 /* Frameworks */,
+				2463C9542CA54EA70094D179 /* Resources */,
+				2463C9B52CA54EA80094D179 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2463C9692CA54EA70094D179 /* PBXTargetDependency */,
+			);
+			name = "Reslocate iOS";
+			productName = "Reslocate iOS";
+			productReference = 2463C9562CA54EA70094D179 /* Reslocate.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2463C9652CA54EA70094D179 /* Reslocate watchOS App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2463C9B22CA54EA80094D179 /* Build configuration list for PBXNativeTarget "Reslocate watchOS App" */;
+			buildPhases = (
+				2463C9642CA54EA70094D179 /* Resources */,
+				2463C9B12CA54EA80094D179 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2463C9762CA54EA70094D179 /* PBXTargetDependency */,
+			);
+			name = "Reslocate watchOS App";
+			productName = "Reslocate watchOS App";
+			productReference = 2463C9662CA54EA70094D179 /* Reslocate.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		2463C9722CA54EA70094D179 /* Reslocate watchOS App Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2463C9AE2CA54EA80094D179 /* Build configuration list for PBXNativeTarget "Reslocate watchOS App Extension" */;
+			buildPhases = (
+				2463C96F2CA54EA70094D179 /* Sources */,
+				2463C9702CA54EA70094D179 /* Frameworks */,
+				2463C9712CA54EA70094D179 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Reslocate watchOS App Extension";
+			productName = "Reslocate watchOS App Extension";
+			productReference = 2463C9732CA54EA70094D179 /* Reslocate Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+		2463C9802CA54EA70094D179 /* Reslocate tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2463C9B92CA54EA80094D179 /* Build configuration list for PBXNativeTarget "Reslocate tvOS" */;
+			buildPhases = (
+				2463C97D2CA54EA70094D179 /* Sources */,
+				2463C97E2CA54EA70094D179 /* Frameworks */,
+				2463C97F2CA54EA70094D179 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Reslocate tvOS";
+			productName = "Reslocate tvOS";
+			productReference = 2463C9812CA54EA70094D179 /* Reslocate.app */;
+			productType = "com.apple.product-type.application";
+		};
+		2463C9912CA54EA80094D179 /* Reslocate macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2463C9BC2CA54EA80094D179 /* Build configuration list for PBXNativeTarget "Reslocate macOS" */;
+			buildPhases = (
+				2463C98E2CA54EA80094D179 /* Sources */,
+				2463C98F2CA54EA80094D179 /* Frameworks */,
+				2463C9902CA54EA80094D179 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Reslocate macOS";
+			productName = "Reslocate macOS";
+			productReference = 2463C9922CA54EA80094D179 /* Reslocate.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2463C9492CA54EA20094D179 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1210;
+				LastUpgradeCheck = 1210;
+				TargetAttributes = {
+					2463C9552CA54EA70094D179 = {
+						CreatedOnToolsVersion = 12.1;
+					};
+					2463C9652CA54EA70094D179 = {
+						CreatedOnToolsVersion = 12.1;
+					};
+					2463C9722CA54EA70094D179 = {
+						CreatedOnToolsVersion = 12.1;
+					};
+					2463C9802CA54EA70094D179 = {
+						CreatedOnToolsVersion = 12.1;
+					};
+					2463C9912CA54EA80094D179 = {
+						CreatedOnToolsVersion = 12.1;
+					};
+				};
+			};
+			buildConfigurationList = 2463C94C2CA54EA20094D179 /* Build configuration list for PBXProject "Reslocate" */;
+			compatibilityVersion = "Xcode 12.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2463C9482CA54EA20094D179;
+			productRefGroup = 2463C9572CA54EA70094D179 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2463C9552CA54EA70094D179 /* Reslocate iOS */,
+				2463C9652CA54EA70094D179 /* Reslocate watchOS App */,
+				2463C9722CA54EA70094D179 /* Reslocate watchOS App Extension */,
+				2463C9802CA54EA70094D179 /* Reslocate tvOS */,
+				2463C9912CA54EA80094D179 /* Reslocate macOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2463C9542CA54EA70094D179 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2463C9A02CA54EA80094D179 /* GameScene.sks in Resources */,
+				2463C95F2CA54EA70094D179 /* Main.storyboard in Resources */,
+				2463C99D2CA54EA80094D179 /* Actions.sks in Resources */,
+				2463C9622CA54EA70094D179 /* LaunchScreen.storyboard in Resources */,
+				2463C9A82CA54EA80094D179 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C9642CA54EA70094D179 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2463C9A92CA54EA80094D179 /* Assets.xcassets in Resources */,
+				2463C96D2CA54EA70094D179 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C9712CA54EA70094D179 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2463C9A12CA54EA80094D179 /* GameScene.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C97F2CA54EA70094D179 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2463C9A22CA54EA80094D179 /* GameScene.sks in Resources */,
+				2463C9892CA54EA70094D179 /* Main.storyboard in Resources */,
+				2463C99E2CA54EA80094D179 /* Actions.sks in Resources */,
+				2463C98C2CA54EA70094D179 /* LaunchScreen.storyboard in Resources */,
+				2463C9AA2CA54EA80094D179 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C9902CA54EA80094D179 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2463C99A2CA54EA80094D179 /* Main.storyboard in Resources */,
+				2463C9A32CA54EA80094D179 /* GameScene.sks in Resources */,
+				2463C9AB2CA54EA80094D179 /* Assets.xcassets in Resources */,
+				2463C99F2CA54EA80094D179 /* Actions.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2463C9522CA54EA70094D179 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2463C9A42CA54EA80094D179 /* GameScene.swift in Sources */,
+				2463C95C2CA54EA70094D179 /* GameViewController.swift in Sources */,
+				2463C95A2CA54EA70094D179 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C96F2CA54EA70094D179 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2463C9A52CA54EA80094D179 /* GameScene.swift in Sources */,
+				2463C97B2CA54EA70094D179 /* ExtensionDelegate.swift in Sources */,
+				2463C9792CA54EA70094D179 /* InterfaceController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C97D2CA54EA70094D179 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2463C9A62CA54EA80094D179 /* GameScene.swift in Sources */,
+				2463C9862CA54EA70094D179 /* GameViewController.swift in Sources */,
+				2463C9842CA54EA70094D179 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2463C98E2CA54EA80094D179 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2463C9A72CA54EA80094D179 /* GameScene.swift in Sources */,
+				2463C9972CA54EA80094D179 /* GameViewController.swift in Sources */,
+				2463C9952CA54EA80094D179 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2463C9692CA54EA70094D179 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = 2463C9652CA54EA70094D179 /* Reslocate watchOS App */;
+			targetProxy = 2463C9682CA54EA70094D179 /* PBXContainerItemProxy */;
+		};
+		2463C9762CA54EA70094D179 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2463C9722CA54EA70094D179 /* Reslocate watchOS App Extension */;
+			targetProxy = 2463C9752CA54EA70094D179 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		2463C95D2CA54EA70094D179 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2463C95E2CA54EA70094D179 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2463C9602CA54EA70094D179 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2463C9612CA54EA70094D179 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2463C96B2CA54EA70094D179 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2463C96C2CA54EA70094D179 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
+		2463C9872CA54EA70094D179 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2463C9882CA54EA70094D179 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		2463C98A2CA54EA70094D179 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2463C98B2CA54EA70094D179 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2463C9982CA54EA80094D179 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2463C9992CA54EA80094D179 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2463C9AC2CA54EA80094D179 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2463C9AD2CA54EA80094D179 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		2463C9AF2CA54EA80094D179 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Reslocate watchOS App Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Thembani.Reslocate.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "Reslocate Extension";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		2463C9B02CA54EA80094D179 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Reslocate watchOS App Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Thembani.Reslocate.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "Reslocate Extension";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
+		2463C9B32CA54EA80094D179 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				IBSC_MODULE = Reslocate_Extension;
+				INFOPLIST_FILE = "Reslocate watchOS App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = Thembani.Reslocate.watchkitapp;
+				PRODUCT_NAME = Reslocate;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		2463C9B42CA54EA80094D179 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				IBSC_MODULE = Reslocate_Extension;
+				INFOPLIST_FILE = "Reslocate watchOS App/Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = Thembani.Reslocate.watchkitapp;
+				PRODUCT_NAME = Reslocate;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
+		2463C9B72CA54EA80094D179 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Reslocate iOS/Reslocate.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Reslocate iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Thembani.Reslocate;
+				PRODUCT_NAME = Reslocate;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		2463C9B82CA54EA80094D179 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Reslocate iOS/Reslocate.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Reslocate iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Thembani.Reslocate;
+				PRODUCT_NAME = Reslocate;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2463C9BA2CA54EA80094D179 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "tvOS App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Reslocate tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Thembani.Reslocate;
+				PRODUCT_NAME = Reslocate;
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
+			};
+			name = Debug;
+		};
+		2463C9BB2CA54EA80094D179 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "tvOS App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = "Reslocate tvOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = Thembani.Reslocate;
+				PRODUCT_NAME = Reslocate;
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2463C9BD2CA54EA80094D179 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Reslocate macOS/Reslocate_macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Reslocate macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = Thembani.Reslocate;
+				PRODUCT_NAME = Reslocate;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		2463C9BE2CA54EA80094D179 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Reslocate macOS/Reslocate_macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Reslocate macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_BUNDLE_IDENTIFIER = Thembani.Reslocate;
+				PRODUCT_NAME = Reslocate;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2463C94C2CA54EA20094D179 /* Build configuration list for PBXProject "Reslocate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2463C9AC2CA54EA80094D179 /* Debug */,
+				2463C9AD2CA54EA80094D179 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2463C9AE2CA54EA80094D179 /* Build configuration list for PBXNativeTarget "Reslocate watchOS App Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2463C9AF2CA54EA80094D179 /* Debug */,
+				2463C9B02CA54EA80094D179 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2463C9B22CA54EA80094D179 /* Build configuration list for PBXNativeTarget "Reslocate watchOS App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2463C9B32CA54EA80094D179 /* Debug */,
+				2463C9B42CA54EA80094D179 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2463C9B62CA54EA80094D179 /* Build configuration list for PBXNativeTarget "Reslocate iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2463C9B72CA54EA80094D179 /* Debug */,
+				2463C9B82CA54EA80094D179 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2463C9B92CA54EA80094D179 /* Build configuration list for PBXNativeTarget "Reslocate tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2463C9BA2CA54EA80094D179 /* Debug */,
+				2463C9BB2CA54EA80094D179 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2463C9BC2CA54EA80094D179 /* Build configuration list for PBXNativeTarget "Reslocate macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2463C9BD2CA54EA80094D179 /* Debug */,
+				2463C9BE2CA54EA80094D179 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2463C9492CA54EA20094D179 /* Project object */;
+}
