@@ -88,11 +88,14 @@ class _AccommodationPageState extends State<AccommodationPage> {
     );
   }
 
+
   // Widget function to build a card with image slider
   Widget buildHouseCard(dynamic house) {
-    List<String> imageUrls = house['image_url'] != null
-        ? List<String>.from(house['image_url']) // Fetch image URLs as a list
-        : []; // Empty list if no images are available
+       
+       List<String> imageUrls = house['image_url'] != null
+    ? [house['image_url'].toString()] // Convert the single URL string into a list
+    : []; // Empty list if no images are available
+
 
     return Card(
       margin: const EdgeInsets.all(10),
@@ -191,6 +194,9 @@ class _AccommodationPageState extends State<AccommodationPage> {
     );
   }
 }
+
+
+
 
 // Fullscreen gallery view using PhotoView and PhotoViewGallery
 class FullScreenGallery extends StatelessWidget {

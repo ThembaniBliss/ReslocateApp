@@ -13,6 +13,7 @@ class AddAccommodationPage extends StatefulWidget {
 }
 
 class _AddAccommodationPageState extends State<AddAccommodationPage> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -26,18 +27,15 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
   void initState() {
     super.initState();
     if (widget.existingAccommodation != null) {
-      _locationController.text =
-          widget.existingAccommodation!['location'] ?? '';
+       _nameController.text = widget.existingAccommodation!['name'] ?? '';
+      _locationController.text = widget.existingAccommodation!['location'] ?? '';
       _priceController.text =
           widget.existingAccommodation!['price']?.toString() ?? '';
       _descriptionController.text =
           widget.existingAccommodation!['description'] ?? '';
-      _imageUrlController.text =
-          widget.existingAccommodation!['image_url'] ?? '';
-      _amenitiesController.text =
-          widget.existingAccommodation!['amenities'] ?? '';
-      _securityController.text =
-          widget.existingAccommodation!['security'] ?? '';
+      _imageUrlController.text = widget.existingAccommodation!['image_url'] ?? '';
+      _amenitiesController.text = widget.existingAccommodation!['amenities'] ?? '';
+      _securityController.text = widget.existingAccommodation!['security'] ?? '';
       _furnishController.text = widget.existingAccommodation!['furnish'] ?? '';
     }
   }
@@ -48,6 +46,7 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
     });
 
     final Map<String, dynamic> data = {
+      'name':_nameController.text,
       'location': _locationController.text,
       'price': int.parse(_priceController.text),
       'description': _descriptionController.text,
@@ -68,7 +67,7 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
       if (response.error != null) {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${response.error.message}')));
+            SnackBar(content: Text('Error: ${response.error!.message}')));
       } else {
         // ignore: use_build_context_synchronously
         Navigator.pop(context);
@@ -92,41 +91,65 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
             ? 'Update HouseListing'
             : 'Add HouseListing'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-                controller: _locationController,
-                decoration: const InputDecoration(labelText: 'Location')),
-            TextField(
-                controller: _priceController,
-                decoration: const InputDecoration(labelText: 'Price'),
-                keyboardType: TextInputType.number),
-            TextField(
-                controller: _descriptionController,
-                decoration: const InputDecoration(labelText: 'Description')),
-            TextField(
-                controller: _imageUrlController,
-                decoration: const InputDecoration(labelText: 'Image URL')),
-            TextField(
-                controller: _amenitiesController,
-                decoration: const InputDecoration(labelText: 'Amenities')),
-            TextField(
-                controller: _securityController,
-                decoration: const InputDecoration(labelText: 'Security')),
-            TextField(
-                controller: _furnishController,
-                decoration: const InputDecoration(labelText: 'Furnish')),
-            const SizedBox(height: 20),
-            isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: addOrUpdateAccommodation,
-                    child: Text(widget.existingAccommodation != null
-                        ? 'Update HouseListing'
-                        : 'Add HouseListing')),
-          ],
+      body: Center(
+        child: SingleChildScrollView(
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            elevation: 5,
+            margin: const EdgeInsets.all(20),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  buildTextField(_locationController, 'name'),
+                  buildTextField(_locationController, 'Location'),
+                  buildTextField(_priceController, 'Price', keyboardType: TextInputType.number),
+                  buildTextField(_descriptionController, 'Description'),
+                  buildTextField(_imageUrlController, 'Image URL'),
+                  buildTextField(_amenitiesController, 'Amenities'),
+                  buildTextField(_securityController, 'Security'),
+                  buildTextField(_furnishController, 'Furnish'),
+                  const SizedBox(height: 20),
+                  isLoading
+                      ? const CircularProgressIndicator()
+                      : ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: addOrUpdateAccommodation,
+                          child: Text(widget.existingAccommodation != null
+                              ? 'Update HouseListing'
+                              : 'Add HouseListing'),
+                        ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTextField(TextEditingController controller, String labelText,
+      {TextInputType keyboardType = TextInputType.text}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+          labelText: labelText,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          filled: true,
+          fillColor: Colors.grey[200],
         ),
       ),
     );
