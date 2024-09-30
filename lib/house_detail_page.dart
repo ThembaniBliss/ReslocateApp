@@ -1,100 +1,109 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:convert';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class HouseDetailPage extends StatelessWidget {
-  final Map<String, dynamic> house;
+class HouseListPage extends StatefulWidget {
+  final SupabaseClient supabaseClient;
 
-  // ignore: use_super_parameters
-  const HouseDetailPage({Key? key, required this.house}) : super(key: key);
+  const HouseListPage({
+    Key? key,
+    required this.supabaseClient,
+  }) : super(key: key);
+
+  @override
+  _HouseListPageState createState() => _HouseListPageState();
+}
+
+class _HouseListPageState extends State<HouseListPage> {
+  List<dynamic> houseListings = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchHouseListings(); // Fetch data when the state is initialized
+  }
+
+  Future<void> fetchHouseListings() async {
+    final response = await widget.supabaseClient
+        .from('HouseListing')
+        .select('id, name, description, image_url, location, price')
+        .execute();
+
+    if (mounted) {
+      if (response.status == 200 && response.data != null) {
+        setState(() {
+          houseListings = response.data as List<dynamic>;
+          isLoading = false;
+        });
+      } else {
+        print('Error fetching houses: Status code: ${response.status}');
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(house['name'] ?? 'House Details'),
+        title: const Text('House Listings'),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(
-              house['image_url'] ?? 'https://via.placeholder.com/150',
-              fit: BoxFit.cover,
-              height: 250,
-              width: double.infinity,
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : houseListings.isEmpty
+              ? const Center(child: Text('No listings available'))
+              : ListView.builder(
+                  itemCount: houseListings.length,
+                  itemBuilder: (context, index) {
+                    final house = houseListings[index];
+                    return buildHouseCard(house);
+                  },
+                ),
+    );
+  }
+
+  Widget buildHouseCard(dynamic house) {
+    // Parse image URLs from JSON array
+    List<String> imageUrls = house['image_url'] != null
+        ? List<String>.from(json.decode(house['image_url']))
+        : [];
+
+    return Card(
+      margin: const EdgeInsets.all(10),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      elevation: 5,
+      child: Column(
+        children: [
+          imageUrls.isNotEmpty
+              ? CachedNetworkImage(
+                  imageUrl: imageUrls.first, // Display the first image
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: 200,
+                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                )
+              : Container(
+                  height: 200,
+                  color: Colors.grey[300],
+                  child: const Center(
+                    child: Text('No Image Available'),
+                  ),
+                ),
+          ListTile(
+            title: Text(house['name'] ?? 'Unknown Property'),
+            subtitle: Text(
+              'Location: ${house['location'] ?? 'Unknown Location'}, Price: ${house['price'] ?? 'N/A'}',
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    house['name'] ?? 'Unknown Property',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Location: ${house['location'] ?? 'Unknown Location'}',
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Price: ${house['price'] ?? 'N/A'}',
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Amenities: ${house['amenities'] ?? 'Not Specified'}',
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Security: ${house['security'] ?? 'Not Specified'}',
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Furnish: ${house['furnish'] ?? 'Not Specified'}',
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // Implement your functionality for expressing interest here
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Are you Interested ?'),
-                              content: const Text(
-                                  'Thank you for your interest. We will contact you shortly.'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: const Text('OK'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      // ignore: sort_child_properties_last
-                      child: const Text('Are you Interested? '),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor:
-                            Colors.blue, // Text Color (Foreground color)
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+            trailing: const Icon(Icons.arrow_forward),
+          ),
+        ],
       ),
     );
   }

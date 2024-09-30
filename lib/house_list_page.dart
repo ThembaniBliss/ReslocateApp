@@ -28,7 +28,7 @@ class _HouseListPageState extends State<HouseListPage> {
   Future<void> fetchHouseListings() async {
     final response = await widget.supabaseClient
         .from('HouseListing')
-        .select('*')
+        .select('id, name, description, image_url') // Explicitly selecting needed fields
         // ignore: deprecated_member_use
         .execute();
 
@@ -119,6 +119,8 @@ class _HouseListPageState extends State<HouseListPage> {
                           itemCount: filteredListings.length,
                           itemBuilder: (context, index) {
                             final house = filteredListings[index];
+                            final imageUrl = house['image_url']; // Get image URL
+
                             return GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -135,11 +137,15 @@ class _HouseListPageState extends State<HouseListPage> {
                                   child: Container(
                                     height: 200,
                                     decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                            house['image_url'] ?? ''),
-                                        fit: BoxFit.cover,
-                                      ),
+                                      image: imageUrl != null && imageUrl.isNotEmpty
+                                          ? DecorationImage(
+                                              image: NetworkImage(imageUrl),
+                                              fit: BoxFit.cover,
+                                            )
+                                          : const DecorationImage(
+                                              image: AssetImage('assets/placeholder.png'), // Placeholder image
+                                              fit: BoxFit.cover,
+                                            ),
                                     ),
                                     child: Container(
                                       alignment: Alignment.bottomLeft,
@@ -188,7 +194,18 @@ class DetailPage extends StatelessWidget {
         title: Text(house['name']),
       ),
       body: Center(
-        child: Text(house['description'] ?? 'No description available'),
+        child: Column(
+          children: [
+            house['image_url'] != null && house['image_url'].isNotEmpty
+                ? Image.network(house['image_url']) // Display image
+                : const Placeholder(
+                    fallbackHeight: 200, fallbackWidth: double.infinity),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(house['description'] ?? 'No description available'),
+            ),
+          ],
+        ),
       ),
     );
   }
