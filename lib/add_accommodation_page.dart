@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+// ignore: unused_import
 import 'package:logger/logger.dart';
 
 
@@ -20,10 +21,43 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _imageUrlController = TextEditingController();
-  final TextEditingController _amenitiesController = TextEditingController();
-  final TextEditingController _securityController = TextEditingController();
-  final TextEditingController _furnishController = TextEditingController();
   bool isLoading = false;
+
+
+     // List of amenities
+  // ignore: unused_field
+  final List<String> _amenities = [
+    'Gym',
+    'Swimming Pool',
+    'Free WiFi',
+    'Security',
+    'Backup Water',
+    '24/hr Security',
+    'Student Life Support',
+    'Computer Labs',
+    'Laundry Facilities',
+    'Games Room',
+    'Access Control',
+    'Study Hubs',
+    'CCTV',
+    'Braai Facilities',
+    'Laundry',
+    'Study Rooms',
+    'Societies',
+    'Maintenance App',
+    'Events',
+    'TV Rooms',
+    'Biometric Access',
+    'Free Transport to Uni',
+    'Smart Access (Card or Smartphone)',
+    'Facial Recognition',
+    'Room Access (Smart Access)',
+    'Room Access (Padlock)',
+    'Rooftop Recreational Area'];
+
+  // Selected amenities
+  List<String> _selectedAmenities = [];
+
 
   @override
   void initState() {
@@ -36,12 +70,10 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
       _descriptionController.text =
           widget.existingAccommodation!['description'] ?? '';
       _imageUrlController.text = widget.existingAccommodation!['image_url'] ?? '';
-      _amenitiesController.text = widget.existingAccommodation!['amenities'] ?? '';
-      _securityController.text = widget.existingAccommodation!['security'] ?? '';
-      _furnishController.text = widget.existingAccommodation!['furnish'] ?? '';
+      _selectedAmenities = List<String>.from(widget.existingAccommodation!['amenities'] ?? []);
+
     }
   }
-
 
 Future<void> addOrUpdateAccommodation() async {
   setState(() {
@@ -54,9 +86,7 @@ Future<void> addOrUpdateAccommodation() async {
     'price': int.tryParse(_priceController.text) ?? 0,
     'description': _descriptionController.text,
     'image_url': _imageUrlController.text,
-    'amenities': _amenitiesController.text,
-    'security': _securityController.text,
-    'furnish': _furnishController.text,
+     'amenities': _selectedAmenities,
   };
 
   try {
@@ -69,23 +99,28 @@ Future<void> addOrUpdateAccommodation() async {
         : await Supabase.instance.client.from('HouseListing').insert(data).select();
 
     // Log response for debugging
+    // ignore: avoid_print
     print(response);
 
     // Supabase now returns a list of results directly
     if (response.isEmpty) {
       // Handle unexpected response format
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Unexpected response format.')));
     } else {
       // Successfully inserted or updated, navigate back
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
     }
   } on PostgrestException catch (error) {
     // Handle specific Supabase-related exceptions
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${error.message}')));
   } catch (e) {
     // Handle general exceptions
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text('Error: $e')));
   } finally {
@@ -94,7 +129,6 @@ Future<void> addOrUpdateAccommodation() async {
     });
   }
 }
-
 
   @override
   Widget build(BuildContext context) {
@@ -122,9 +156,29 @@ Future<void> addOrUpdateAccommodation() async {
                   buildTextField(_priceController, 'Price', keyboardType: TextInputType.number),
                   buildTextField(_descriptionController, 'Description'),
                   buildTextField(_imageUrlController, 'Image URL'),
-                  buildTextField(_amenitiesController, 'Amenities'),
-                  buildTextField(_securityController, 'Security'),
-                  buildTextField(_furnishController, 'Furnish'),
+                  const SizedBox(height: 20),
+
+                  // Amenity Picker
+                  const SizedBox(height: 20),
+                  const Text('Select Amenities'),
+                  Wrap(
+                    children: _amenities.map((amenity) {
+                      return FilterChip(
+                        label: Text(amenity),
+                        selected: _selectedAmenities.contains(amenity),
+                        onSelected: (bool selected) {
+                          setState(() {
+                            if (selected) {
+                              _selectedAmenities.add(amenity);
+                            } else {
+                              _selectedAmenities.remove(amenity);
+                            }
+                          });
+                        },
+                      );
+                    }).toList(),
+                  ),
+                  
                   const SizedBox(height: 20),
                   isLoading
                       ? const CircularProgressIndicator()
@@ -167,6 +221,4 @@ Future<void> addOrUpdateAccommodation() async {
       ),
     );
   }
-
-  
 }

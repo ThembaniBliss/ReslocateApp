@@ -26,45 +26,47 @@ class _ImageGalleryPageState extends State<ImageGalleryPage> {
     fetchImageUrls();
   }
 
-
 Future<void> fetchImageUrls() async {
-  // Perform the query
-  final response = await client
-      .from('HouseListing')
-      .select('image_url')
-      .eq('id', widget.houseId)
-      .single(); // Adjust if necessary based on the returned type
+  try {
+    // Perform the query
+    final response = await client
+        .from('HouseListing')
+        .select('image_url')
+        .eq('id', widget.houseId)
+        .single(); // Adjust if necessary based on the returned type
 
-  // Check if the response has an error
-  if (response is PostgrestResponse && response.error != null) {
-    // Log the error message if there's one
-    developer.log('Error fetching images: ${response.error!.message}');
-    setState(() => isLoading = false);
-    return; // Exit early if there's an error
-  }
-
-  // Safely access the response data if it's a PostgrestResponse
-  if (response is PostgrestResponse) {
+    // Safely access the response data
     final data = response.data;
-    if (data != null && data['image_url'] != null) {
-      // Decode the image URLs and update the state
-      setState(() {
+
+    if (data != null && data['image_url'] != null && data['image_url'].isNotEmpty) {
+      // Check if it's a valid JSON before decoding
+      try {
         imageUrls = List<String>.from(json.decode(data['image_url']));
-        isLoading = false;
-      });
+        setState(() {
+          isLoading = false;
+        });
+      } catch (e) {
+        developer.log('Error decoding image URLs: $e');
+        setState(() {
+          isLoading = false;
+        });
+      }
     } else {
-      // Handle the case where no image URLs are found
-      developer.log('No images found for this house.');
+      // Handle the case where no image URLs are found or image_url is null/empty
+      developer.log('No images found or invalid image_url format.');
       setState(() => isLoading = false);
     }
-  } else {
-    // Handle unexpected response types
-    developer.log('Unexpected response type received.');
+
+  } on PostgrestException catch (e) {
+    // Catch specific Supabase-related exceptions
+    developer.log('Error fetching images: ${e.message}');
+    setState(() => isLoading = false);
+  } catch (e) {
+    // Catch general exceptions
+    developer.log('Unexpected error: $e');
     setState(() => isLoading = false);
   }
 }
-
-
 
   @override
   Widget build(BuildContext context) {
