@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:logger/logger.dart';
+
 
 class AddAccommodationPage extends StatefulWidget {
   final Map<String, dynamic>? existingAccommodation; // For updating
@@ -40,48 +42,59 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
     }
   }
 
-  Future<void> addOrUpdateAccommodation() async {
-    setState(() {
-      isLoading = true;
-    });
 
-    final Map<String, dynamic> data = {
-      'name':_nameController.text,
-      'location': _locationController.text,
-      'price': int.parse(_priceController.text),
-      'description': _descriptionController.text,
-      'image_url': _imageUrlController.text,
-      'amenities': _amenitiesController.text,
-      'security': _securityController.text,
-      'furnish': _furnishController.text,
-    };
+Future<void> addOrUpdateAccommodation() async {
+  setState(() {
+    isLoading = true;
+  });
 
-    try {
-      final response = widget.existingAccommodation != null
-          ? await Supabase.instance.client
-              .from('HouseListing')
-              .update(data)
-              .eq('id', widget.existingAccommodation!['id'])
-          : await Supabase.instance.client.from('HouseListing').insert(data);
+  final Map<String, dynamic> data = {
+    'name': _nameController.text,
+    'location': _locationController.text,
+    'price': int.tryParse(_priceController.text) ?? 0,
+    'description': _descriptionController.text,
+    'image_url': _imageUrlController.text,
+    'amenities': _amenitiesController.text,
+    'security': _securityController.text,
+    'furnish': _furnishController.text,
+  };
 
-      if (response.error != null) {
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${response.error!.message}')));
-      } else {
-        // ignore: use_build_context_synchronously
-        Navigator.pop(context);
-      }
-    } catch (e) {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Error: $e')));
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
+  try {
+    final response = widget.existingAccommodation != null
+        ? await Supabase.instance.client
+            .from('HouseListing')
+            .update(data)
+            .eq('id', widget.existingAccommodation!['id'])
+            .select() // Ensure we get a response with select
+        : await Supabase.instance.client.from('HouseListing').insert(data).select();
+
+    // Log response for debugging
+    print(response);
+
+    // Supabase now returns a list of results directly
+    if (response.isEmpty) {
+      // Handle unexpected response format
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Unexpected response format.')));
+    } else {
+      // Successfully inserted or updated, navigate back
+      Navigator.pop(context);
     }
+  } on PostgrestException catch (error) {
+    // Handle specific Supabase-related exceptions
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${error.message}')));
+  } catch (e) {
+    // Handle general exceptions
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Error: $e')));
+  } finally {
+    setState(() {
+      isLoading = false;
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -154,4 +167,6 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
       ),
     );
   }
+
+  
 }

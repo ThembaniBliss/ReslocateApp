@@ -26,29 +26,45 @@ class _ImageGalleryPageState extends State<ImageGalleryPage> {
     fetchImageUrls();
   }
 
- Future<void> fetchImageUrls() async {
-    final response = await client
-        .from('HouseListing')
-        .select('image_url')
-        .eq('id', widget.houseId)
-        .single();
 
-    if (response.error == null) {
-      final data = response.data;
-      if (data != null && data['image_url'] != null) {
-        setState(() {
-          imageUrls = List<String>.from(json.decode(data['image_url']));
-          isLoading = false;
-        });
-      } else {
-        developer.log('No images found for this house.');
-        setState(() => isLoading = false);
-      }
+Future<void> fetchImageUrls() async {
+  // Perform the query
+  final response = await client
+      .from('HouseListing')
+      .select('image_url')
+      .eq('id', widget.houseId)
+      .single(); // Adjust if necessary based on the returned type
+
+  // Check if the response has an error
+  if (response is PostgrestResponse && response.error != null) {
+    // Log the error message if there's one
+    developer.log('Error fetching images: ${response.error!.message}');
+    setState(() => isLoading = false);
+    return; // Exit early if there's an error
+  }
+
+  // Safely access the response data if it's a PostgrestResponse
+  if (response is PostgrestResponse) {
+    final data = response.data;
+    if (data != null && data['image_url'] != null) {
+      // Decode the image URLs and update the state
+      setState(() {
+        imageUrls = List<String>.from(json.decode(data['image_url']));
+        isLoading = false;
+      });
     } else {
-      developer.log('Error fetching images: ${response.error?.message ?? 'Unknown error'}');
+      // Handle the case where no image URLs are found
+      developer.log('No images found for this house.');
       setState(() => isLoading = false);
     }
+  } else {
+    // Handle unexpected response types
+    developer.log('Unexpected response type received.');
+    setState(() => isLoading = false);
   }
+}
+
+
 
   @override
   Widget build(BuildContext context) {
