@@ -170,12 +170,12 @@ class _AccommodationPageState extends State<AccommodationPage> {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const InterestFormPage(house: {}),
+                    context,
+                MaterialPageRoute(
+                    builder: (context) => InterestFormPage(house: house),  // Pass the full house object
                       ),
-                    );
-                  },
+                      );
+                      },
                   child: const Text('Are you Interested?'),
                 ),
               ],

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'dart:convert';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:convert';  // Important for decoding JSON
 
 class HouseListPage extends StatefulWidget {
   final SupabaseClient supabaseClient;
 
-  const HouseListPage({
-    Key? key,
-    required this.supabaseClient,
-  }) : super(key: key);
+  // ignore: use_super_parameters
+  const HouseListPage({Key? key, required this.supabaseClient}) : super(key: key);
 
   @override
   _HouseListPageState createState() => _HouseListPageState();
@@ -22,13 +19,14 @@ class _HouseListPageState extends State<HouseListPage> {
   @override
   void initState() {
     super.initState();
-    fetchHouseListings(); // Fetch data when the state is initialized
+    fetchHouseListings();
   }
 
   Future<void> fetchHouseListings() async {
     final response = await widget.supabaseClient
         .from('HouseListing')
         .select('id, name, description, image_url, location, price')
+        // ignore: deprecated_member_use
         .execute();
 
     if (mounted) {
@@ -38,6 +36,7 @@ class _HouseListPageState extends State<HouseListPage> {
           isLoading = false;
         });
       } else {
+        // ignore: avoid_print
         print('Error fetching houses: Status code: ${response.status}');
         setState(() {
           isLoading = false;
@@ -67,9 +66,9 @@ class _HouseListPageState extends State<HouseListPage> {
   }
 
   Widget buildHouseCard(dynamic house) {
-    // Parse image URLs from JSON array
+    // Parse the image URLs stored as a JSON array in the database
     List<String> imageUrls = house['image_url'] != null
-        ? List<String>.from(json.decode(house['image_url']))
+        ? List<String>.from(json.decode(house['image_url']))  // Decoding JSON array
         : [];
 
     return Card(
@@ -81,13 +80,14 @@ class _HouseListPageState extends State<HouseListPage> {
       child: Column(
         children: [
           imageUrls.isNotEmpty
-              ? CachedNetworkImage(
-                  imageUrl: imageUrls.first, // Display the first image
-                  fit: BoxFit.cover,
-                  width: double.infinity,
+              ? Container(
                   height: 200,
-                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(imageUrls.first),  // Displaying the first image
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 )
               : Container(
                   height: 200,
@@ -99,7 +99,7 @@ class _HouseListPageState extends State<HouseListPage> {
           ListTile(
             title: Text(house['name'] ?? 'Unknown Property'),
             subtitle: Text(
-              'Location: ${house['location'] ?? 'Unknown Location'}, Price: ${house['price'] ?? 'N/A'}',
+              'Location: ${house['location'] ?? 'Unknown'}, Price: ${house['price'] ?? 'N/A'}',
             ),
             trailing: const Icon(Icons.arrow_forward),
           ),

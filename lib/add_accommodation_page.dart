@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-// ignore: unused_import
-import 'package:logger/logger.dart';
-
+import 'dart:convert'; // For encoding/decoding JSON
 
 class AddAccommodationPage extends StatefulWidget {
   final Map<String, dynamic>? existingAccommodation; // For updating
@@ -23,9 +21,7 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
   final TextEditingController _imageUrlController = TextEditingController();
   bool isLoading = false;
 
-
-     // List of amenities
-  // ignore: unused_field
+  // List of amenities
   final List<String> _amenities = [
     'Gym',
     'Swimming Pool',
@@ -53,82 +49,105 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
     'Facial Recognition',
     'Room Access (Smart Access)',
     'Room Access (Padlock)',
-    'Rooftop Recreational Area'];
+    'Rooftop Recreational Area'
+  ];
 
   // Selected amenities
   List<String> _selectedAmenities = [];
-
 
   @override
   void initState() {
     super.initState();
     if (widget.existingAccommodation != null) {
-       _nameController.text = widget.existingAccommodation!['name'] ?? '';
+      _nameController.text = widget.existingAccommodation!['name'] ?? '';
       _locationController.text = widget.existingAccommodation!['location'] ?? '';
-      _priceController.text =
-          widget.existingAccommodation!['price']?.toString() ?? '';
-      _descriptionController.text =
-          widget.existingAccommodation!['description'] ?? '';
+      _priceController.text = widget.existingAccommodation!['price']?.toString() ?? '';
+      _descriptionController.text = widget.existingAccommodation!['description'] ?? '';
       _imageUrlController.text = widget.existingAccommodation!['image_url'] ?? '';
-      _selectedAmenities = List<String>.from(widget.existingAccommodation!['amenities'] ?? []);
 
+      // Decode the JSON string into a list for selected amenities
+      _selectedAmenities = widget.existingAccommodation!['amenities'] != null
+          ? List<String>.from(json.decode(widget.existingAccommodation!['amenities']))
+          : [];
     }
   }
 
-Future<void> addOrUpdateAccommodation() async {
-  setState(() {
-    isLoading = true;
-  });
+  Future<void> addOrUpdateAccommodation() async {
+    setState(() {
+      isLoading = true;
+    });
 
-  final Map<String, dynamic> data = {
-    'name': _nameController.text,
-    'location': _locationController.text,
-    'price': int.tryParse(_priceController.text) ?? 0,
-    'description': _descriptionController.text,
-    'image_url': _imageUrlController.text,
-     'amenities': _selectedAmenities,
-  };
+    // Validate fields before submission
+    if (_nameController.text.isEmpty ||
+        _locationController.text.isEmpty ||
+        _priceController.text.isEmpty ||
+        _descriptionController.text.isEmpty ||
+        _imageUrlController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields!')),
+      );
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
 
-  try {
-    final response = widget.existingAccommodation != null
-        ? await Supabase.instance.client
-            .from('HouseListing')
-            .update(data)
-            .eq('id', widget.existingAccommodation!['id'])
-            .select() // Ensure we get a response with select
-        : await Supabase.instance.client.from('HouseListing').insert(data).select();
+    // Prepare data for insertion/update
+    final Map<String, dynamic> data = {
+      'name': _nameController.text,
+      'location': _locationController.text,
+      'price': int.tryParse(_priceController.text) ?? 0,
+      'description': _descriptionController.text,
+      'image_url': _imageUrlController.text,
+      // Encode the selected amenities as JSON
+      'amenities': json.encode(_selectedAmenities),
+    };
 
-    // Log response for debugging
-    // ignore: avoid_print
-    print(response);
+    try {
+      final response = widget.existingAccommodation != null
+          ? await Supabase.instance.client
+              .from('HouseListing')
+              .update(data)
+              .eq('id', widget.existingAccommodation!['id'])
+              .select() // Ensure we get a response with select
+          : await Supabase.instance.client
+              .from('HouseListing')
+              .insert(data)
+              .select(); // Ensure we get a response with select
 
-    // Supabase now returns a list of results directly
-    if (response.isEmpty) {
-      // Handle unexpected response format
+      // ignore: avoid_print
+      print('Supabase response: $response'); // Log the response from Supabase
+
+      if (response.isEmpty) {
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Unexpected response format.')),
+        );
+      } else {
+        // Successfully inserted or updated, navigate back
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context);
+      }
+    } on PostgrestException catch (error) {
+      // ignore: avoid_print
+      print('Supabase error: $error'); // Log the specific error from Supabase
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Unexpected response format.')));
-    } else {
-      // Successfully inserted or updated, navigate back
+        SnackBar(content: Text('Error: ${error.message}')),
+      );
+    } catch (e) {
+      // ignore: avoid_print
+      print('General error: $e'); // Log general errors
       // ignore: use_build_context_synchronously
-      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
     }
-  } on PostgrestException catch (error) {
-    // Handle specific Supabase-related exceptions
-    // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${error.message}')));
-  } catch (e) {
-    // Handle general exceptions
-    // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Error: $e')));
-  } finally {
-    setState(() {
-      isLoading = false;
-    });
   }
-}
 
   @override
   Widget build(BuildContext context) {
