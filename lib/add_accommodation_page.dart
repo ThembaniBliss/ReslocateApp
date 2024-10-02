@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:convert'; // For encoding/decoding JSON
@@ -72,82 +74,96 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
     }
   }
 
+
   Future<void> addOrUpdateAccommodation() async {
+  setState(() {
+    isLoading = true;
+  });
+
+  // Validate fields before submission
+  if (_nameController.text.isEmpty ||
+      _locationController.text.isEmpty ||
+      _priceController.text.isEmpty ||
+      _descriptionController.text.isEmpty ||
+      _imageUrlController.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please fill in all fields!')),
+    );
     setState(() {
-      isLoading = true;
+      isLoading = false;
     });
-
-    // Validate fields before submission
-    if (_nameController.text.isEmpty ||
-        _locationController.text.isEmpty ||
-        _priceController.text.isEmpty ||
-        _descriptionController.text.isEmpty ||
-        _imageUrlController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields!')),
-      );
-      setState(() {
-        isLoading = false;
-      });
-      return;
-    }
-
-    // Prepare data for insertion/update
-    final Map<String, dynamic> data = {
-      'name': _nameController.text,
-      'location': _locationController.text,
-      'price': int.tryParse(_priceController.text) ?? 0,
-      'description': _descriptionController.text,
-      'image_url': _imageUrlController.text,
-      // Encode the selected amenities as JSON
-      'amenities': json.encode(_selectedAmenities),
-    };
-
-    try {
-      final response = widget.existingAccommodation != null
-          ? await Supabase.instance.client
-              .from('HouseListing')
-              .update(data)
-              .eq('id', widget.existingAccommodation!['id'])
-              .select() // Ensure we get a response with select
-          : await Supabase.instance.client
-              .from('HouseListing')
-              .insert(data)
-              .select(); // Ensure we get a response with select
-
-      // ignore: avoid_print
-      print('Supabase response: $response'); // Log the response from Supabase
-
-      if (response.isEmpty) {
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Unexpected response format.')),
-        );
-      } else {
-        // Successfully inserted or updated, navigate back
-        // ignore: use_build_context_synchronously
-        Navigator.pop(context);
-      }
-    } on PostgrestException catch (error) {
-      // ignore: avoid_print
-      print('Supabase error: $error'); // Log the specific error from Supabase
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: ${error.message}')),
-      );
-    } catch (e) {
-      // ignore: avoid_print
-      print('General error: $e'); // Log general errors
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
+    return;
   }
+
+  // Prepare data for insertion/update
+  final Map<String, dynamic> data = {
+    'name': _nameController.text,
+    'location': _locationController.text,
+    'price': int.tryParse(_priceController.text) ?? 0,
+    'description': _descriptionController.text,
+    'image_url': _imageUrlController.text,
+    // Encode the selected amenities as JSON
+    'amenities': json.encode(_selectedAmenities),
+  };
+
+  try {
+    final response = widget.existingAccommodation != null
+        ? await Supabase.instance.client
+            .from('HouseListing')
+            .update(data)
+            .eq('id', widget.existingAccommodation!['id'])
+            .select() // Ensure we get a response with select
+        : await Supabase.instance.client
+            .from('HouseListing')
+            .insert(data)
+            .select(); // Ensure we get a response with select
+
+    // ignore: avoid_print
+    print('Supabase response: $response'); // Log the response from Supabase
+
+    if (response.isEmpty) {
+      // ignore: duplicate_ignore
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Unexpected response format.')),
+      );
+    } else {
+      // Display a success message based on whether it's an update or insert
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(widget.existingAccommodation != null
+              ? 'Accommodation updated successfully!'
+              : 'Accommodation added successfully!'),
+        ),
+      );
+      // Successfully inserted or updated, navigate back
+      // ignore: duplicate_ignore
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    }
+  } on PostgrestException catch (error) {
+    // ignore: avoid_print
+    print('Supabase error: $error'); // Log the specific error from Supabase
+    // ignore: duplicate_ignore
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error: ${error.message}')),
+    );
+  } catch (e) {
+    // ignore: avoid_print
+    print('General error: $e'); // Log general errors
+    // ignore: duplicate_ignore
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error: $e')),
+    );
+  } finally {
+    setState(() {
+      isLoading = false;
+    });
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
