@@ -18,7 +18,7 @@ class AccommodationPage extends StatefulWidget {
 class _AccommodationPageState extends State<AccommodationPage> {
   List<dynamic> houseListings = [];
   bool isLoading = true;
-  bool showAll = false; // Track whether we're showing all accommodations
+  bool showAll = false;
 
   @override
   void initState() {
@@ -65,7 +65,6 @@ class _AccommodationPageState extends State<AccommodationPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine how many items to show
     final displayList = showAll ? houseListings : houseListings.take(4).toList();
 
     return Scaffold(
@@ -88,7 +87,7 @@ class _AccommodationPageState extends State<AccommodationPage> {
                             crossAxisCount: 4, // 4 items per row
                             crossAxisSpacing: 10.0, // Space between columns
                             mainAxisSpacing: 10.0, // Space between rows
-                            childAspectRatio: 0.75, // Adjust the aspect ratio as needed
+                            childAspectRatio: 0.65, // Adjust the aspect ratio to create more space
                           ),
                           itemCount: displayList.length,
                           itemBuilder: (context, index) {
@@ -98,7 +97,6 @@ class _AccommodationPageState extends State<AccommodationPage> {
                         ),
                       ),
                     ),
-                    // Toggle between View All and View Less buttons based on the view state
                     if (showAll)
                       Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -147,7 +145,7 @@ class _AccommodationPageState extends State<AccommodationPage> {
             imageUrls.isNotEmpty
                 ? CarouselSlider(
                     options: CarouselOptions(
-                      height: 120, // Adjust height of the carousel
+                      height: 100, // Reduced height for more space
                       enlargeCenterPage: true,
                       enableInfiniteScroll: false,
                       autoPlay: false,
@@ -183,30 +181,42 @@ class _AccommodationPageState extends State<AccommodationPage> {
                   )
                 : const Icon(Icons.home, size: 100), // Default icon if no images
             const SizedBox(height: 10),
-            Text(
-              house['location'] ?? 'Unknown Location',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+            Flexible(
+              child: Text(
+                house['location'] ?? 'Unknown Location',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis, // Handle text overflow
               ),
             ),
-            Text(
-              'R ${house['price'] ?? 'N/A'}',
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.green,
+            Flexible(
+              child: Text(
+                'R ${house['price'] ?? 'N/A'}',
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.green,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis, // Handle text overflow
               ),
             ),
-            Text(
-              '${house['furnish'] ?? ''} Bedroom',
-              style: const TextStyle(fontSize: 14),
+            Flexible(
+              child: Text(
+                '${house['furnish'] ?? ''} Bedroom',
+                style: const TextStyle(fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis, // Handle text overflow
+              ),
             ),
-            Expanded(
+            Flexible(
               child: Text(
                 house['description'] ?? 'No description available',
                 style: const TextStyle(fontSize: 12, color: Colors.grey),
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis, // Limit to 2 lines
               ),
             ),
           ],
