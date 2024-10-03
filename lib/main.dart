@@ -12,9 +12,9 @@ void main() async {
 
   // Initialize Supabase
   await Supabase.initialize(
-    url: 'https://xwmqsrjexxstflprjzub.supabase.co',
+    url: 'https://sjqlnrztidffvuapbijf.supabase.co',
     anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh3bXFzcmpleHhzdGZscHJqenViIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYwNDQxOTMsImV4cCI6MjA0MTYyMDE5M30.R5NjxZcI91aTwLlIlU7EiJnyjQvKpKNm_zYn5A4V6ms',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNqcWxucnp0aWRmZnZ1YXBiaWpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjc0MjY1ODEsImV4cCI6MjA0MzAwMjU4MX0.VPRwCLYdj3H3axMwLVsjFLaKOGzaJJftpDH-Ae-KLKI',
   );
 
   runApp(MyApp());

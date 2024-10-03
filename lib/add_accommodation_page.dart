@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:convert'; // For encoding/decoding JSON
 
+import 'main.dart'; // Import the main.dart file to access MyApp
+
 class AddAccommodationPage extends StatefulWidget {
   final Map<String, dynamic>? existingAccommodation; // For updating
 
@@ -74,96 +76,85 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
     }
   }
 
-
   Future<void> addOrUpdateAccommodation() async {
-  setState(() {
-    isLoading = true;
-  });
-
-  // Validate fields before submission
-  if (_nameController.text.isEmpty ||
-      _locationController.text.isEmpty ||
-      _priceController.text.isEmpty ||
-      _descriptionController.text.isEmpty ||
-      _imageUrlController.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Please fill in all fields!')),
-    );
     setState(() {
-      isLoading = false;
+      isLoading = true;
     });
-    return;
-  }
 
-  // Prepare data for insertion/update
-  final Map<String, dynamic> data = {
-    'name': _nameController.text,
-    'location': _locationController.text,
-    'price': int.tryParse(_priceController.text) ?? 0,
-    'description': _descriptionController.text,
-    'image_url': _imageUrlController.text,
-    // Encode the selected amenities as JSON
-    'amenities': json.encode(_selectedAmenities),
-  };
-
-  try {
-    final response = widget.existingAccommodation != null
-        ? await Supabase.instance.client
-            .from('HouseListing')
-            .update(data)
-            .eq('id', widget.existingAccommodation!['id'])
-            .select() // Ensure we get a response with select
-        : await Supabase.instance.client
-            .from('HouseListing')
-            .insert(data)
-            .select(); // Ensure we get a response with select
-
-    // ignore: avoid_print
-    print('Supabase response: $response'); // Log the response from Supabase
-
-    if (response.isEmpty) {
-      // ignore: duplicate_ignore
-      // ignore: use_build_context_synchronously
+    // Validate fields before submission
+    if (_nameController.text.isEmpty ||
+        _locationController.text.isEmpty ||
+        _priceController.text.isEmpty ||
+        _descriptionController.text.isEmpty ||
+        _imageUrlController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Unexpected response format.')),
+        const SnackBar(content: Text('Please fill in all fields!')),
       );
-    } else {
-      // Display a success message based on whether it's an update or insert
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(widget.existingAccommodation != null
-              ? 'Accommodation updated successfully!'
-              : 'Accommodation added successfully!'),
-        ),
-      );
-      // Successfully inserted or updated, navigate back
-      // ignore: duplicate_ignore
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context);
+      setState(() {
+        isLoading = false;
+      });
+      return;
     }
-  } on PostgrestException catch (error) {
-    // ignore: avoid_print
-    print('Supabase error: $error'); // Log the specific error from Supabase
-    // ignore: duplicate_ignore
-    // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error: ${error.message}')),
-    );
-  } catch (e) {
-    // ignore: avoid_print
-    print('General error: $e'); // Log general errors
-    // ignore: duplicate_ignore
-    // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error: $e')),
-    );
-  } finally {
-    setState(() {
-      isLoading = false;
-    });
-  }
-}
 
+    // Prepare data for insertion/update
+    final Map<String, dynamic> data = {
+      'name': _nameController.text,
+      'location': _locationController.text,
+      'price': int.tryParse(_priceController.text) ?? 0,
+      'description': _descriptionController.text,
+      'image_url': _imageUrlController.text,
+      'amenities': json.encode(_selectedAmenities), // Encode the selected amenities as JSON
+    };
+
+    try {
+      final response = widget.existingAccommodation != null
+          ? await Supabase.instance.client
+              .from('HouseListing')
+              .update(data)
+              .eq('id', widget.existingAccommodation!['id'])
+              .select()
+          : await Supabase.instance.client
+              .from('HouseListing')
+              .insert(data)
+              .select();
+
+      if (response.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Unexpected response format.')),
+        );
+      } else {
+        // Show a success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(widget.existingAccommodation != null
+                ? 'Accommodation updated successfully!'
+                : 'Accommodation added successfully!'),
+          ),
+        );
+
+        // Delay for 1 second to allow the message to show
+        await Future.delayed(const Duration(seconds: 1));
+
+        // Navigate back to the main page (MyApp)
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MyApp()), // Navigate to the main MyApp page
+        );
+      }
+    } on PostgrestException catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${error.message}')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: $e')),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +177,7 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  buildTextField(_nameController, 'name'),
+                  buildTextField(_nameController, 'Name'),
                   buildTextField(_locationController, 'Location'),
                   buildTextField(_priceController, 'Price', keyboardType: TextInputType.number),
                   buildTextField(_descriptionController, 'Description'),
