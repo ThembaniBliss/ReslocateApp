@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -27,41 +29,34 @@ class _AccommodationPageState extends State<AccommodationPage> {
   }
 
   Future<void> fetchAccommodations() async {
-    // ignore: avoid_print
-    print('Fetching accommodations from Supabase...');
+  try {
+    // Fetch data from Supabase
     final response = await widget.supabaseClient
         .from('HouseListing')
-        .select('name, location, amenities, security, furnish, price, image_url, description')
-        // ignore: deprecated_member_use
+        .select('name, location, amenities, price, image_url, description') // Removed 'security'
         .execute();
 
     // ignore: unnecessary_null_comparison
-    if (response.status != null && response.status >= 400) {
-      // ignore: avoid_print
-      print("Error fetching data: Status Code ${response.status}");
+    if (response != null && response.data != null) {
       setState(() {
-        isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: Status Code ${response.status}')),
-      );
-      return;
-    }
-
-    if (response.data != null && response.data.isNotEmpty) {
-      setState(() {
-        houseListings = response.data;
-        isLoading = false;
+        houseListings = response.data; // Assign the fetched data
+        isLoading = false; // Turn off loading indicator
       });
     } else {
-      setState(() {
-        isLoading = false;
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No accommodations found')),
-      );
+      throw Exception('No data found');
     }
+  } catch (error) {
+    // Handle the error gracefully
+    setState(() {
+      isLoading = false; // Turn off loading indicator
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error: $error')),
+    );
   }
+}
+
+
 
   @override
   Widget build(BuildContext context) {

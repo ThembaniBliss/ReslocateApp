@@ -1,13 +1,13 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:convert'; // For encoding/decoding JSON
-
+import 'dart:io'; // For handling file operations
+import 'package:image_picker/image_picker.dart'; // Image picker for file selection
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'main.dart'; // Import the main.dart file to access MyApp
 
 class AddAccommodationPage extends StatefulWidget {
-  final Map<String, dynamic>? existingAccommodation; // For updating
+  final Map<String, dynamic>? existingAccommodation;
 
   // ignore: use_super_parameters
   const AddAccommodationPage({Key? key, this.existingAccommodation})
@@ -23,7 +23,10 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _imageUrlController = TextEditingController();
+
   bool isLoading = false;
+  bool useImageUrl = true; // To toggle between image URL and file upload
+  List<XFile>? _selectedImages; // To store selected images
 
   // List of amenities
   final List<String> _amenities = [
@@ -56,7 +59,6 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
     'Rooftop Recreational Area'
   ];
 
-  // Selected amenities
   List<String> _selectedAmenities = [];
 
   @override
@@ -69,11 +71,28 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
       _descriptionController.text = widget.existingAccommodation!['description'] ?? '';
       _imageUrlController.text = widget.existingAccommodation!['image_url'] ?? '';
 
-      // Decode the JSON string into a list for selected amenities
       _selectedAmenities = widget.existingAccommodation!['amenities'] != null
           ? List<String>.from(json.decode(widget.existingAccommodation!['amenities']))
           : [];
     }
+  }
+
+  // Updated method to allow max of 7 images
+  Future<void> pickImages() async {
+    final ImagePicker picker = ImagePicker();
+    // ignore: unnecessary_nullable_for_final_variable_declarations
+    final List<XFile>? images = await picker.pickMultiImage();
+
+    if (images != null && images.length > 7) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('You can only select up to 7 images.')),
+      );
+      return;
+    }
+
+    setState(() {
+      _selectedImages = images;
+    });
   }
 
   Future<void> addOrUpdateAccommodation() async {
@@ -81,12 +100,12 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
       isLoading = true;
     });
 
-    // Validate fields before submission
     if (_nameController.text.isEmpty ||
         _locationController.text.isEmpty ||
         _priceController.text.isEmpty ||
         _descriptionController.text.isEmpty ||
-        _imageUrlController.text.isEmpty) {
+        (useImageUrl && _imageUrlController.text.isEmpty) ||
+        (!useImageUrl && (_selectedImages == null || _selectedImages!.isEmpty))) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill in all fields!')),
       );
@@ -96,17 +115,19 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
       return;
     }
 
-    // Prepare data for insertion/update
     final Map<String, dynamic> data = {
       'name': _nameController.text,
       'location': _locationController.text,
       'price': int.tryParse(_priceController.text) ?? 0,
       'description': _descriptionController.text,
-      'image_url': _imageUrlController.text,
-      'amenities': json.encode(_selectedAmenities), // Encode the selected amenities as JSON
+      'image_url': useImageUrl
+          ? _imageUrlController.text
+          : _selectedImages?.map((image) => image.path).toList(),
+      'amenities': json.encode(_selectedAmenities),
     };
 
     try {
+      // ignore: unused_local_variable
       final response = widget.existingAccommodation != null
           ? await Supabase.instance.client
               .from('HouseListing')
@@ -118,36 +139,22 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
               .insert(data)
               .select();
 
-      if (response.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Unexpected response format.')),
-        );
-      } else {
-        // Show a success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(widget.existingAccommodation != null
-                ? 'Accommodation updated successfully!'
-                : 'Accommodation added successfully!'),
-          ),
-        );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(widget.existingAccommodation != null
+              ? 'Accommodation updated successfully!'
+              : 'Accommodation added successfully!'),
+        ),
+      );
 
-        // Delay for 1 second to allow the message to show
-        await Future.delayed(const Duration(seconds: 1));
-
-        // Navigate back to the main page (MyApp)
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MyApp()), // Navigate to the main MyApp page
-        );
-      }
+      await Future.delayed(const Duration(seconds: 1));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => MyApp()),
+      );
     } on PostgrestException catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: ${error.message}')),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
       );
     } finally {
       setState(() {
@@ -163,6 +170,7 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
         title: Text(widget.existingAccommodation != null
             ? 'Update HouseListing'
             : 'Add HouseListing'),
+        backgroundColor: Colors.blue, // Blue AppBar
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -181,12 +189,113 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
                   buildTextField(_locationController, 'Location'),
                   buildTextField(_priceController, 'Price', keyboardType: TextInputType.number),
                   buildTextField(_descriptionController, 'Description'),
-                  buildTextField(_imageUrlController, 'Image URL'),
+                  
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text('Use Image URL', style: TextStyle(color: Colors.black)),
+                      Switch(
+                        value: useImageUrl,
+                        activeColor: Colors.green, // Green when active
+                        onChanged: (bool value) {
+                          setState(() {
+                            useImageUrl = value;
+                          });
+                        },
+                      ),
+                      const Text('Upload Images', style: TextStyle(color: Colors.black)),
+                    ],
+                  ),
+
+                  useImageUrl
+                      ? buildTextField(_imageUrlController, 'Image URL')
+                      : Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: pickImages,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blue,
+                              ),
+                              child: const Text('Pick Images'),
+                            ),
+                            _selectedImages != null
+                                ? Wrap(
+                                    spacing: 8.0,
+                                    runSpacing: 8.0,
+                                    children: [
+                                      ..._selectedImages!.asMap().entries.map((entry) {
+                                        final int index = entry.key;
+                                        final XFile image = entry.value;
+                                        return Stack(
+                                          children: [
+                                            kIsWeb
+                                                ? Image.network(
+                                                    image.path,
+                                                    width: 100,
+                                                    height: 100,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Image.file(
+                                                    File(image.path),
+                                                    width: 100,
+                                                    height: 100,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                            Positioned(
+                                              right: 0,
+                                              top: 0,
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _selectedImages!.removeAt(index);
+                                                  });
+                                                },
+                                                child: Container(
+                                                  decoration: const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.green, 
+                                                  ),
+                                                  padding: const EdgeInsets.all(4.0),
+                                                  child: const Icon(
+                                                    Icons.close,
+                                                    size: 18,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      // ignore: unnecessary_to_list_in_spreads
+                                      }).toList(),
+                                      GestureDetector(
+                                        onTap: pickImages,
+                                        child: Container(
+                                          width: 100,
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(10),
+                                            border: Border.all(color: Colors.green, width: 2),
+                                            color: Colors.white,
+                                          ),
+                                          child: const Center(
+                                            child: Icon(
+                                              Icons.add,
+                                              size: 30,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : const Text('No images selected'),
+                          ],
+                        ),
+
                   const SizedBox(height: 20),
 
-                  // Amenity Picker
-                  const SizedBox(height: 20),
-                  const Text('Select Amenities'),
+                  const Text('Select Amenities', style: TextStyle(color: Colors.black)),
                   Wrap(
                     children: _amenities.map((amenity) {
                       return FilterChip(
@@ -204,21 +313,20 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
                       );
                     }).toList(),
                   ),
-                  
+
                   const SizedBox(height: 20),
                   isLoading
                       ? const CircularProgressIndicator()
                       : ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
                           onPressed: addOrUpdateAccommodation,
-                          child: Text(widget.existingAccommodation != null
-                              ? 'Update HouseListing'
-                              : 'Add HouseListing'),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                          ),
+                          child: Text(
+                            widget.existingAccommodation != null
+                                ? 'Update HouseListing'
+                                : 'Add HouseListing',
+                          ),
                         ),
                 ],
               ),
@@ -238,11 +346,12 @@ class _AddAccommodationPageState extends State<AddAccommodationPage> {
         keyboardType: keyboardType,
         decoration: InputDecoration(
           labelText: labelText,
+          labelStyle: const TextStyle(color: Colors.black),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           filled: true,
-          fillColor: Colors.grey[200],
+          fillColor: Colors.white,
         ),
       ),
     );
